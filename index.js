@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const { query } = require('express');
 require('dotenv').config()
 
 const stripe = require("stripe")(process.env.STIPE_SECRET_KEY);
@@ -109,13 +110,23 @@ async function run() {
         app.post('/user', async (req, res) => {
             const user = req.body;
             const email = user.email;
-            const options = { upsert: true }
-            const updateDoc = {
-                email: email,
-                role: 'admin'
-            };
-            const result = await usersCollations.updateOne(updateDoc, options);
-            res.send(result);
+            const query = { email: email };
+
+            const find = await usersCollations.findOne(query);
+
+            if (email === find?.email) {
+                res.send({ message: "You are Already Admin" })
+            } else {
+                const updateDoc = {
+                    email: email,
+                    role: 'admin'
+                };
+
+                const result = await usersCollations.insertOne(updateDoc);
+                res.send(result);
+            }
+
+
         });
 
 
