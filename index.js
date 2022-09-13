@@ -24,6 +24,7 @@ async function run() {
         const ordersCollations = client.db("design_agency").collection("orders");
         const usersCollations = client.db("design_agency").collection("users");
         const paymentCollations = client.db("design_agency").collection("payment");
+        const reviewCollations = client.db("design_agency").collection("review");
 
         // service get api 
         app.get('/service', async (req, res) => {
@@ -46,6 +47,17 @@ async function run() {
             res.send(result);
         })
 
+        git.get('/review', async(req, res) => {
+            const result = await reviewCollations.find().toArray() ;
+            res.send(result)
+        })
+
+
+        app.post('/review', async(req, res) => {
+            const feedback = req.body ;
+            const result = await reviewCollations.insertOne(feedback);
+            res.send(result);
+        })
 
         // post order api 
         app.post('/order', async (req, res) => {
