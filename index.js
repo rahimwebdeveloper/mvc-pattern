@@ -40,6 +40,12 @@ async function run() {
             res.send(services)
         });
 
+        app.post('/service', async (req, res) => {
+            const service = req.body;
+            const result = await servicesCollations.insertOne(service);
+            res.send(result);
+        })
+
 
         // post order api 
         app.post('/order', async (req, res) => {
@@ -106,7 +112,7 @@ async function run() {
             res.send(updatingOrder);
         });
 
-
+        // add amin you project 
         app.post('/user', async (req, res) => {
             const user = req.body;
             const email = user.email;
@@ -133,6 +139,9 @@ async function run() {
         app.get('/admin/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email: email };
+            const result = await usersCollations.findOne(query);
+            res.send(result);
+
         })
 
 
