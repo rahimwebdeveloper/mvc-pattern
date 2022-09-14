@@ -3,8 +3,9 @@ const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const { query } = require('express');
 require('dotenv').config()
+
+
 
 const stripe = require("stripe")(process.env.STIPE_SECRET_KEY);
 
@@ -14,11 +15,14 @@ app.use(cors());
 app.use(express.json());
 
 
+
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.e5xjxv3.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
+
 async function run() {
     try {
+        console.log("mongodb connected")
         await client.connect();
         const servicesCollations = client.db("design_agency").collection("services");
         const ordersCollations = client.db("design_agency").collection("orders");
@@ -47,7 +51,7 @@ async function run() {
             res.send(result);
         })
 
-        git.get('/review', async(req, res) => {
+        app.get('/review', async(req, res) => {
             const result = await reviewCollations.find().toArray() ;
             res.send(result)
         })
