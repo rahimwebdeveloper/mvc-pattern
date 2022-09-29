@@ -22,7 +22,6 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 async function run() {
     try {
-        console.log("mongodb connected")
         await client.connect();
         const servicesCollations = client.db("design_agency").collection("services");
         const ordersCollations = client.db("design_agency").collection("orders");
@@ -51,14 +50,14 @@ async function run() {
             res.send(result);
         })
 
-        app.get('/review', async(req, res) => {
-            const result = await reviewCollations.find().toArray() ;
+        app.get('/review', async (req, res) => {
+            const result = await reviewCollations.find().toArray();
             res.send(result)
         })
 
 
-        app.post('/review', async(req, res) => {
-            const feedback = req.body ;
+        app.post('/review', async (req, res) => {
+            const feedback = req.body;
             const result = await reviewCollations.insertOne(feedback);
             res.send(result);
         })
@@ -132,6 +131,7 @@ async function run() {
         app.post('/user', async (req, res) => {
             const user = req.body;
             const email = user.email;
+            
             const query = { email: email };
 
             const find = await usersCollations.findOne(query);
