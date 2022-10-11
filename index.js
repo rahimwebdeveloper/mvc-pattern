@@ -3,6 +3,8 @@ const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const dbConnect = require('./utils/dbConnect');
+
 require('dotenv').config()
 
 
@@ -16,9 +18,7 @@ app.use(express.json());
 
 
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.e5xjxv3.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-
+dbConnect();
 
 async function run() {
     try {
@@ -131,7 +131,7 @@ async function run() {
         app.post('/user', async (req, res) => {
             const user = req.body;
             const email = user.email;
-            
+
             const query = { email: email };
 
             const find = await usersCollations.findOne(query);
