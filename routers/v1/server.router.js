@@ -47,5 +47,8 @@ router
    * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
    */
     .post(serviceController.getPostService)
-router.route("/:id").get(viewCount, limiter, serviceController.getServiceDetail)
+router.route("/:id")
+.get(viewCount, limiter, serviceController.getServiceDetail)
+.patch(serviceController.updateService)
+.delete(serviceController.deleteService)
 module.exports = router;
