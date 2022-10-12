@@ -5,6 +5,8 @@ const PORT = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const dbConnect = require('./utils/dbConnect');
 const serviceRouter = require('./routers/v1/server.router');
+const viewCount = require('./middelware/viewCount');
+// const { default: rateLimit } = require('express-rate-limit');
 
 require('dotenv').config()
 
@@ -16,9 +18,15 @@ const stripe = require("stripe")(process.env.STIPE_SECRET_KEY);
 app.use(cors());
 app.use(express.json());
 
+// app.use(viewCount) 
 
+
+
+// Apply the rate limiting middleware to all requests
+// app.use(limiter)
 
 dbConnect();
+
 app.use("/api/v1/service", serviceRouter)
 
 

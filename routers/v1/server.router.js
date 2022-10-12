@@ -1,5 +1,7 @@
 const express = require('express');
 const serviceController = require('../../controller/service.router');
+const limiter = require('../../middelware/limiter');
+const viewCount = require('../../middelware/viewCount');
 const router = express.Router();
 
 // router.get("/", (req, res) => {
@@ -45,5 +47,5 @@ router
    * @apiError (Forbidden 403)     Forbidden     Only admins can access the data
    */
     .post(serviceController.getPostService)
-
+router.route("/:id").get(viewCount, limiter, serviceController.getServiceDetail)
 module.exports = router;

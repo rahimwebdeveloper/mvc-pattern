@@ -1,9 +1,28 @@
+const services = [
+    { id: 1, name: "Graphic Design " },
+    { id: 2, name: "Android App Development " },
+    { id: 3, name: "Web Development" },
+]
+
+
 module.exports.getAllService = (req, res, next) => {
-    const {ip, params, query, body, headers,} = req;
-    console.log(ip, params, query, body, headers, )
-    res.send("got it")
-    
+    res.send(services);
+
 }
 module.exports.getPostService = (req, res, next) => {
-    res.send("Save this post")
+    console.log(req.body);
+    res.send(req.body);
+
+}
+
+module.exports.getServiceDetail = (req, res, next) => {
+    const id = req.params.id;
+
+    const foundService = services.find(service => service.id === Number(id));
+    res.send(foundService);
+    // services.map(service => {
+    //     if(id == service.id){
+    //         res.send(service)
+    //     }
+    // })
 }
